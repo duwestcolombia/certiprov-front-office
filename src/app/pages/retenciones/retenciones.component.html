@@ -1,0 +1,86 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <input #input (keyup)="buscarRetencion(input.value)" type="text" class="form-control" name="buscar" placeholder="Buscar registros por proveedor o por cuenta...">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="row animated fadeIn" >
+
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong>Cargando</strong>
+            <br>
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span>Espere por favor</span>
+
+        </div>
+
+    </div>
+</div> -->
+
+<div class="row animated fadeIn">
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <!-- <h5 class="card title">Cuentas registradas (<small>{{totalRegistros}}</small>)</h5> -->
+                Proveedores registrados ( <small>{{totalRegistros}}</small> )
+            </div>
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <!-- All content here  -->
+                    <table class="table table-hover">
+                        <tr>
+                            <th>AÑO RETENCION</th>
+                            <th>CODIGO CUENTA</th>
+                            <th>NOMBRE CUENTA</th>
+                            <th>NIT PROVEEDOR</th>
+                            <th>NOMBRE PROVEEDOR</th>
+                            <th>IMPORTE RETENCIÓN</th>
+                            <th>BASE IMPORTE RETENCIÓN</th>
+                            <th>PORCENTAJE DE RETENCIÓN</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                        <tr *ngFor="let ret of Retenciones">
+                            <td> {{ret.ANIO_RETENCION}}</td>
+                            <td> {{ret.COD_CUENTA}}</td>
+                            <td> {{ret.NOM_CUENTA}}</td>
+                            <td> {{ret.NIT_CLIENTE}}</td>
+                            <td> {{ret.NOMBRE_CLIENTE}}</td>
+                            <td> {{ret.IMPORTE_RETENCION}}</td>
+                            <td> {{ret.BASEIMPO_RETENCION}}</td>
+                            <td> {{ret.PORCENTAJE_RETENCION | percent}}</td>
+
+                            <td>
+                                <button class="btn btn-primary btn-sm">
+                      <i class="fa fa-edit"></i>
+                </button>
+                                <!-- <button class="btn btn-danger btn-sm">
+                  <i class="fa fa-trash-o"></i>
+                </button> -->
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+                <button (click)="cambiarDesde(-20)" class="btn btn-secondary">
+                Anteriores
+            </button>
+                <button (click)="cambiarDesde(20)" class="btn btn-secondary">
+                Siguientes
+            </button>
+            </div>
+        </div>
+    </div>
+
+</div>

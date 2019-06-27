@@ -1,59 +1,99 @@
-<div class="row">
-  <div class="col-lg-8">
-    <div class="card">
-        <div class="card-body">
-            <!-- All content here  -->
-            <table class="table table-hover">
-              <tr>
-                <th>CODIGO CUENTA</th>
-                <th>NOMBRE CUENTA</th>
-                <th>ACCIONES</th>
-              </tr>
-              <tr *ngFor="let cuenta of cuentas">
-                <td> {{cuenta.COD_CUENTA}} </td>
-                <td> {{cuenta.NOM_CUENTA}} </td>
-                <td>
-                  <button class="btn btn-warning" >
-                        <i class="fa fa-edit"></i>
-                  </button>
-                  <button class="btn btn-danger" (click)="eliminar(cuenta.COD_CUENTA)">
-                    <i class="fa fa-trash-o"></i>
-                  </button>
-                </td>
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
 
-              </tr>
-            </table>
+                <input #input (keyup)="buscarCuenta(input.value)" type="text" class="form-control" name="buscar" placeholder="Buscar Cuenta...">
+
+            </div>
         </div>
     </div>
-  </div>
-  <div class="col-md-4">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Nueva cuenta</h4>
-        </div>
-        <div class="card-body">
-            <form class="form-horizontal form-material">
-                <div class="form-group">
-                    <label class="col-md-12">Codigo de la cuenta</label>
-                    <div class="col-md-12">
-                        <input type="number" placeholder="125456" class="form-control form-control-line">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="example-email" class="col-md-12">Nombre de la cuenta</label>
-                    <div class="col-md-12">
-                        <input type="text" placeholder="Rete ica.." class="form-control form-control-line" name="example-email" id="example-email">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <button class="btn btn-success btn-block">Registrar</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-      </div>
-  </div>
 </div>
 
+
+<div class="row animated fadeIn" *ngIf="cargando">
+
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong>Cargando</strong>
+            <br>
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span>Espere por favor</span>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Nueva cuenta</h4>
+            </div>
+            <div class="card-body">
+                <form ngNativeValidate #f="ngForm" class="form-horizontal form-material" (ngSubmit)="registrar(f)">
+                    <div class="form-group">
+                        <label class="col-md-12">Codigo de la cuenta</label>
+                        <div class="col-md-12">
+                            <input ngModel name="cod_cuenta" type="number" placeholder="125456" class="form-control form-control-line">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-email" class="col-md-12">Nombre de la cuenta</label>
+                        <div class="col-md-12">
+                            <input ngModel name="nom_cuenta" type="text" placeholder="Rete ica.." class="form-control form-control-line">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-success btn-block" type="submit">Registrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-8">
+        <div class="card">
+            <div class="card-header">
+                <!-- <h5 class="card title">Cuentas registradas (<small>{{totalRegistros}}</small>)</h5> -->
+                Cuentas registradas ( <small>{{totalRegistros}}</small> )
+            </div>
+            <div class="card-body">
+                <!-- All content here  -->
+                <table class="table table-hover">
+                    <tr>
+                        <th>CODIGO CUENTA</th>
+                        <th>NOMBRE CUENTA</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                    <tr *ngFor="let cuenta of cuentas">
+                        <td> {{cuenta.COD_CUENTA}} </td>
+                        <td> {{cuenta.NOM_CUENTA}} </td>
+                        <td>
+                            <button class="btn btn-primary btn-sm">
+                          <i class="fa fa-edit"></i>
+                    </button>
+                            <button class="btn btn-danger btn-sm" (click)="eliminar(cuenta.COD_CUENTA)">
+                      <i class="fa fa-trash-o"></i>
+                    </button>
+                        </td>
+
+                    </tr>
+                </table>
+                <button (click)="cambiarDesde(-5)" class="btn btn-secondary">
+                    Anteriores
+                </button>
+                <button (click)="cambiarDesde(5)" class="btn btn-secondary">
+                    Siguientes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { URL_SERVICE } from '../config/config';
-import { Usuario } from '../models/usuario.model';
+import { URL_SERVICE } from '../../config/config';
+import { Usuario } from '../../models/usuario.model';
 
 
 import { map } from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class UsuarioService {
    }
 
 
-   cargarStorage(){
+  cargarStorage(){
     if (localStorage.getItem('token')) {
 
       this.token = localStorage.getItem('token');
@@ -46,6 +46,16 @@ export class UsuarioService {
     this.token = token ;
 
   }
+
+  actualizaStorage(usuario:Usuario){
+    if (localStorage.getItem('usuario')) {
+   
+      localStorage.removeItem('usuario');
+
+    }
+    localStorage.setItem('usuario', JSON.stringify(usuario));
+  }
+
   logout(){
     this.usuario = null;
     this.token = '';
@@ -105,6 +115,53 @@ export class UsuarioService {
 
   estaLogueado(){
     return (this.token.length > 5 ) ? true : false;
+  }
+
+  actualizarUsuario(doc_usuario:string,usuActualizar:Usuario){
+    
+    let url = URL_SERVICE + 'usuarios/actualizar/' + doc_usuario;
+
+    return this.http.put(url, usuActualizar, {
+                      headers:{
+                        'token': this.token
+                      }
+                    })
+                    .pipe(
+                      map((resp:any)=>{
+                        Swal.fire({
+                          title: 'Bien Hecho!',
+                          text: resp.message,
+                          type: 'success',
+                          confirmButtonText: 'Genial'
+                        })
+                        return resp.usuario;
+                      })
+                    )
+  }
+
+  cargarUsuarios(desde:number = 0){
+
+    let url = URL_SERVICE + 'usuarios?desde=' + desde;
+
+    return this.http.get(url, {
+      headers:{
+        'token': this.token
+      }
+    })
+
+  }
+
+  buscarUsuarios(termino:string){
+    let url = URL_SERVICE + 'busqueda/entidad/usuarios/' + termino;
+
+    return this.http.get(url, {
+      headers:{
+        'token': this.token
+      }
+    }).pipe(
+      map((resp:any)=> resp.usuarios)
+    )
+
   }
 
 

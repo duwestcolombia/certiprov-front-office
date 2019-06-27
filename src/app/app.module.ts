@@ -32,6 +32,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 //Sweet alert
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SidebarService } from './services/service.index';
+
 
 
 @NgModule({
@@ -60,7 +62,9 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
       cancelButtonClass: 'btn'
   })
   ],
-  providers: [],
+  providers: [
+    SidebarService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

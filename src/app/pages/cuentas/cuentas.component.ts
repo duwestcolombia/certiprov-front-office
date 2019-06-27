@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CuentasService } from 'src/app/services/cuentas.service';
 
+import { NgForm } from '@angular/forms';
+import { Cuenta } from '../../models/cuenta.model';
+import { CuentaService } from '../../services/service.index';
 
-// import { sweetalert } from "sweetalert";
-// import * as swal  from 'sweetalert';
 
 @Component({
   selector: 'app-cuentas',
@@ -13,10 +13,15 @@ import { CuentasService } from 'src/app/services/cuentas.service';
 export class CuentasComponent implements OnInit {
 
   cuentas:any = [];
+  desde:number = 0;
 
-  // swal:SweetAlert;
+  totalRegistros:number = 0;
+  cargando:boolean = true;
 
-  constructor(public _cuentaService:CuentasService
+  //modelo de la cuenta
+  cuenta:Cuenta;
+
+  constructor(public _cuentaService:CuentaService
               ) {
    
   }
@@ -26,21 +31,67 @@ export class CuentasComponent implements OnInit {
   }
 
   listarCuentas(){
-    this._cuentaService.listar().subscribe(
-      res => {
-        
-        this.cuentas = res['message'];
-        
-        console.log(this.cuentas);
-        // swal('listo', 'alerta','success');
-        // swal("funciona");
+    this.cargando = true;
+    this._cuentaService.listar(this.desde).subscribe(
+      (res:any) => {
+
+        this.totalRegistros = res.total;
+        this.cuentas = res['cuentas'];
+        this.cargando = false;
+
       },
       err => console.log(err)
             
     )
   }
 
-  registrar(){
+  cambiarDesde(valor:number){
+    let desde = this.desde + valor;
+    
+
+    if (desde >= this.totalRegistros) {
+      return;
+    }
+    if (desde < 0) {
+      return;
+    
+    }
+    this.desde += valor;
+    this.listarCuentas();
+    
+  }
+
+  buscarCuenta(termino:string){
+
+
+
+    if (termino.length <= 0) {
+      this.listarCuentas();
+      return;  
+    }
+    this.cargando = true;
+    this._cuentaService.buscarCuentas(termino).subscribe(resp=>{
+     
+      this.cuentas = resp;
+      this.cargando = false;
+      
+    })
+    
+  }
+
+  registrar(forma:NgForm){
+    if (!forma.valid) {
+      return;
+    }
+
+    let cuenta = new Cuenta(forma.value.cod_cuenta, forma.value.nom_cuenta);
+
+    this._cuentaService.crear(cuenta).subscribe((resp:any)=>{
+      this.listarCuentas();
+      
+    })
+    
+    
 
   }
   actualizar(){
@@ -49,8 +100,9 @@ export class CuentasComponent implements OnInit {
   eliminar(id:number){
     this._cuentaService.eliminar(id).subscribe(res=>{
       
-      console.log(res);
-      this.listarCuentas();
+      if (res) {
+        this.listarCuentas();
+      }
       
     },err=>{
       console.log(err);

@@ -1,0 +1,72 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <input #input (keyup)="buscarProveedor(input.value)" type="text" class="form-control" name="buscar" placeholder="Buscar Proveedor...">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row animated fadeIn" *ngIf="cargando">
+
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong>Cargando</strong>
+            <br>
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span>Espere por favor</span>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <!-- <h5 class="card title">Cuentas registradas (<small>{{totalRegistros}}</small>)</h5> -->
+                Proveedores registrados ( <small>{{totalRegistros}}</small> )
+            </div>
+            <div class="card-body">
+                <!-- All content here  -->
+                <table class="table table-hover">
+                    <tr>
+                        <th>NIT</th>
+                        <th>NOMBRE</th>
+                        <th>ESTADO</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                    <tr *ngFor="let prov of Proveedor">
+                        <td> {{prov.NIT_CLIENTE}} </td>
+                        <td> {{prov.NOMBRE_CLIENTE}} </td>
+                        <td *ngIf="prov.ESTADO_CLIENTE"> <span class="badge badge-success">ACTIVO</span> </td>
+                        <td *ngIf="!prov.ESTADO_CLIENTE"> <span class="badge badge-danger">INACTIVO</span> </td>
+                        <td>
+                            <button class="btn btn-primary btn-sm">
+                      <i class="fa fa-edit"></i>
+                </button>
+                            <!-- <button class="btn btn-danger btn-sm">
+                  <i class="fa fa-trash-o"></i>
+                </button> -->
+                        </td>
+
+                    </tr>
+                </table>
+                <button (click)="cambiarDesde(-10)" class="btn btn-secondary">
+                Anteriores
+            </button>
+                <button (click)="cambiarDesde(10)" class="btn btn-secondary">
+                Siguientes
+            </button>
+            </div>
+        </div>
+    </div>
+
+</div>

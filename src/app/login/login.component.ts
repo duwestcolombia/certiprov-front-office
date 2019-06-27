@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { UsuarioService } from '../services/usuario.service';
+import { UsuarioService } from '../services/service.index';
 import { Usuario } from '../models/usuario.model';
 
 
@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
   }
 
   ingresar(forma:NgForm){
-    console.log(forma);
     
     //validar que el formulario que se recibe, sea correcto
     if (!forma.valid) {

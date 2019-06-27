@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { FormsModule,ReactiveFormsModule  }   from '@angular/forms';
+
 // Components 
 import { PagesComponent } from './pages.component';
 
@@ -10,9 +12,11 @@ import { SharedModule } from '../shared/shared.module';
 // Services
 
 import {
-  CuentasService,
+  CuentaService,
   UsuarioService,
-  LogingardGuard
+  LogingardGuard,
+  ProveedorService,
+  RetencionService
 } from '../services/service.index';
 
 
@@ -22,6 +26,11 @@ import { PAGES_ROUTES } from './pages.route';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { CuentasComponent } from './cuentas/cuentas.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ProveedoresComponent } from './proveedores/proveedores.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
+import { ModalUpdateComponent } from '../components/modal-update/modal-update.component';
+import { RetencionesComponent } from './retenciones/retenciones.component';
+
 
 
 
@@ -29,18 +38,26 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     PagesComponent,
     AccountSettingsComponent,
-    CuentasComponent
+    CuentasComponent,
+    ProveedoresComponent,
+    UsuariosComponent,
+    ModalUpdateComponent,
+    RetencionesComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
     PAGES_ROUTES,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers:[
-    CuentasService,
     UsuarioService,
-    LogingardGuard
+    LogingardGuard,
+    CuentaService,
+    ProveedorService,
+    RetencionService
   ],
   exports:[
 
